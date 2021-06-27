@@ -59,18 +59,19 @@ public class PlayerBehavior : MonoBehaviour
     [Header("Dashing Gear System")]
 
     public bool dashing = false;
+    public bool turning = false;
     public int gear = 1;
     public float gear2mult = 1.00f;
     public float gear3mult = 1.75f;
     public float gear4mult = 2.30f;
     public float gear5mult = 3.00f;
 
-    public float gear2tran=0.65f;
-    public float gear3tran=1.00f;
-    public float gear4tran=0.85f;
+    public float gear2tran=1200f;
+    public float gear3tran=2800f;
+    public float gear4tran=4000f;
 
-    double gearTranTime = 0.0;
-    double lastRecordedTime = 0.0;
+    public double gearTranTime = 0.0;
+    public double lastRecordedTime = 0.0;
 
     [Header("Flipping")]
     public bool left = false;
@@ -101,7 +102,7 @@ public class PlayerBehavior : MonoBehaviour
         dashInput = 0;
         gearTranTime = lastRecordedTime = 0.0f;
 
-        dashing = false;
+        dashing = turning = false;
 
         rb = GetComponent<Rigidbody2D>();
 
@@ -120,6 +121,8 @@ public class PlayerBehavior : MonoBehaviour
         Jump();
 
         Dash();
+
+        GearSpeed();
     }
 
     void CheckForInput()
@@ -143,6 +146,14 @@ public class PlayerBehavior : MonoBehaviour
 
         rb.velocity = new Vector2(moveInput*walkSpeed, rb.velocity.y);
 
+        if(moveInput < 0)
+        {
+            left = true;
+        }
+        else if(moveInput > 0)
+        {
+            left = false;
+        }
 
 
     }
@@ -207,9 +218,32 @@ public class PlayerBehavior : MonoBehaviour
     {
         if(isGrounded)
         {
-            double t = Time.time;
+            if(dashInput != 0)
+            {
+                dashing = true;
+                gear = 2;
+                double t = Time.time;
 
-            lastRecordedTime = t - lastRecordedTime;
+                lastRecordedTime = t - lastRecordedTime;
+                gearTranTime += lastRecordedTime;
+                //Now, we need to figure out what gear we are going at.
+
+                if(gear == 2 && gearTranTime > gear2tran)
+                {
+                    gear = 3;
+                }
+                if(gear == 3 && gearTranTime > gear3tran)
+                {
+                    gear = 4;
+                }
+
+            }
+            else 
+            {
+                dashing = false;
+                gear = 1;
+                gearTranTime = 0;
+            }
 
 
 
@@ -227,6 +261,35 @@ public class PlayerBehavior : MonoBehaviour
 
 
     }
+
+    void GearSpeed()
+    {
+        if(gear <= 1)
+        {
+            return;
+        }
+
+        int direction = left ? -1 : 1;
+
+        if (gear == 2)
+        {
+            rb.velocity = new Vector2(direction * gear2mult * walkSpeed, rb.velocity.y);
+        }
+        else if (gear == 3)
+        {
+            rb.velocity = new Vector2(direction * gear3mult * walkSpeed, rb.velocity.y);
+        }
+        else if(gear == 4)
+        {
+            rb.velocity = new Vector2(direction * gear4mult * walkSpeed, rb.velocity.y);
+        }
+        else if(gear == 5)
+        {
+            rb.velocity = new Vector2(direction * gear5mult * walkSpeed, rb.velocity.y);
+        }
+    }
+
+
 
     void Turn(bool val)
     {

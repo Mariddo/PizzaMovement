@@ -2951,7 +2951,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 7.5
+  orthographic size: 3.51
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -3063,6 +3063,36 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &737201490
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 737201491}
+  m_Layer: 0
+  m_Name: player_hurtbox
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &737201491
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 737201490}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1548435097}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &914170985
 GameObject:
   m_ObjectHideFlags: 0
@@ -3102,7 +3132,7 @@ MonoBehaviour:
   m_Follow: {fileID: 1548435097}
   m_Lens:
     FieldOfView: 60
-    OrthographicSize: 7.5
+    OrthographicSize: 3.51
     NearClipPlane: 0.3
     FarClipPlane: 1000
     Dutch: 0
@@ -3192,6 +3222,7 @@ Transform:
   m_Children:
   - {fileID: 1505757277}
   - {fileID: 668071736}
+  - {fileID: 737201491}
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -3246,14 +3277,17 @@ MonoBehaviour:
   lookInput: 0
   dashInput: 0
   dashing: 0
+  turning: 0
   gear: 1
   gear2mult: 1
   gear3mult: 1.75
   gear4mult: 2.3
   gear5mult: 3
-  gear2tran: 0.65
-  gear3tran: 1
-  gear4tran: 0.85
+  gear2tran: 1400
+  gear3tran: 2800
+  gear4tran: 3800
+  gearTranTime: 0
+  lastRecordedTime: 0
   left: 0
 --- !u!61 &1548435100
 BoxCollider2D:
